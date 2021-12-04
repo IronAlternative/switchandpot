@@ -11,8 +11,8 @@
 const int ledPin = 8;    // led is set to digital pin8
 const int switchPin = 7; // switch is set to digital pin7
 const int pot = A3;      // sets the pot pin in
-int off = 0;             //variables for mode off and on
-int on = 1;
+const int off = 0;       //variables for mode off and on
+const int on = 1;
 int mode = off;     //initialize mode as off for dimmer program to be defualt
 int brightness = 0; //start the LED off basically
 int fadeamount = 5; //percentage for the dimmer program to lower the LED by
@@ -34,23 +34,23 @@ void loop()
     { // the opposite of above
         mode = on;
     }
-}
-switch (mode)
-{
-case off:
-    analogWrite(ledPin, brightness);
-    brightness = brightness + fadeamount;
-
-    if (brightness <= 0 || brightness >= 255)
+    switch (mode)
     {
-        fadeamount = -fadeamount;
-    }
-    delay(30);
-    break;
+    case off:
+        analogWrite(ledPin, brightness);
+        brightness = brightness + fadeamount;
 
-case on:
-    int potValue = analogRead(pot); //sets the value of the pot
-    potValue = map(potValue, 0, 1023, 0, 255);
-    analogWrite(ledPin, potValue);
-    break;
+        if (brightness <= 0 || brightness >= 255)
+        {
+            fadeamount = -fadeamount;
+        }
+        delay(30);
+        break;
+
+    case on:
+        int potValue = analogRead(pot); //sets the value of the pot
+        potValue = map(potValue, 0, 1023, 0, 255);
+        analogWrite(ledPin, potValue);
+        break;
+    }
 }
